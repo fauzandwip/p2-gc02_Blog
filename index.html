@@ -12,152 +12,133 @@
 		}
 	</style>
 	<body>
-		<!-- navbar -->
-		<!-- <nav class="flex justify-between items-center bg-gray-800 py-2 px-4">
-			<div>
-				<img
-					src="https://images.tokopedia.net/img/FZfiOH/2021/6/11/9cc90aa3-90d4-4560-bf75-c881573fc2d4.png"
-					alt="Hacktiv8 Logo"
-					class="w-14"
-				/>
-			</div>
-			<div class="py-2 px-4 text-white h-10 rounded-lg bg-teal-600">
-				Sign In
-			</div>
-		</nav> -->
-
-		<!-- main -->
-		<!-- <div class="main">
-			<div
-				class="bg-blue-600 flex flex-wrap gap-2.5 justify-center w-full h-screen p-10"
+		<!-- main html -->
+		<div class="main-page w-full h-screen bg-teal-300">
+			<!-- navbar -->
+			<nav
+				class="flex justify-between items-center fixed w-full bg-gray-800 py-2 px-4"
 			>
-				<div
-					class="card flex flex-col items-center bg-teal-600 w-1/5 rounded-sm"
-				>
+				<div>
 					<img
-						src="https://source.unsplash.com/1000x600"
-						alt=""
-						srcset=""
-						class="grow rounded-t-sm"
+						src="https://images.tokopedia.net/img/FZfiOH/2021/6/11/9cc90aa3-90d4-4560-bf75-c881573fc2d4.png"
+						alt="Hacktiv8 Logo"
+						class="w-14"
 					/>
-					<div class="title text-white basis-1/6 flex items-center">
-						title title
-					</div>
 				</div>
-				<div
-					class="card flex flex-col items-center bg-teal-600 w-1/5 rounded-sm"
-				>
-					<img
-						src="https://source.unsplash.com/1000x600"
-						alt=""
-						srcset=""
-						class="grow rounded-t-sm"
-					/>
-					<div class="title text-white basis-1/6 flex items-center">
-						title title
-					</div>
+				<div class="py-2 px-4 text-white h-10 rounded-lg bg-teal-600">
+					Sign In
 				</div>
-				<div
-					class="card flex flex-col items-center bg-teal-600 w-1/5 rounded-sm"
-				>
-					<img
-						src="https://source.unsplash.com/1000x600"
-						alt=""
-						srcset=""
-						class="grow rounded-t-sm"
-					/>
-					<div class="title text-white basis-1/6 flex items-center">
-						title title
+			</nav>
+
+			<!-- main -->
+			<div
+				class="main-posts w-full min-h-screen bg-slate-600 flex flex-col pt-28 pb-8 px-20 items-center justify-evenly"
+			>
+				<!-- <div class="main-title text-5xl text-slate-100">Blog Website</div> -->
+
+				<div class="main flex flex-row">
+					<div class="post-section flex flex-col gap-4">
+						<!-- search, filter -->
+						<div
+							class="search-filter w-max h-max text-slate-300 bg-slate-800 flex flex-col p-5 gap-4 rounded-lg"
+						>
+							<div id="search-post" class="flex flex-col gap-1">
+								<label for="search">Search</label>
+								<input
+									type="text"
+									name="search"
+									id="search"
+									placeholder="search post"
+									class="bg-slate-600 py-1 px-2 rounded-md"
+								/>
+							</div>
+
+							<div id="filter-category" class="flex flex-col gap-2">
+								<label>Filter By Category</label>
+								<label for="category-1" class="flex gap-3 items-center">
+									<input type="checkbox" name="sport" id="category-1" />
+									Sport
+								</label>
+
+								<label for="category-2" class="flex gap-3 items-center">
+									<input type="checkbox" name="fiction" id="category-2" />
+									Fiction
+								</label>
+
+								<label for="category-3" class="flex gap-3 items-center">
+									<input type="checkbox" name="tech" id="category-3" />
+									Technology
+								</label>
+
+								<label for="category-4" class="flex gap-3 items-center">
+									<input type="checkbox" name="health" id="category-4" />
+									Health
+								</label>
+							</div>
+						</div>
+
+						<!-- select sort -->
+						<select
+							name="sort-post"
+							id="sort-post"
+							class="p-3 bg-teal-400 w-max"
+						>
+							<option disabled>sort by</option>
+							<option value="createdAt">oldest</option>
+							<option value="-createdAt">newest</option>
+						</select>
 					</div>
-				</div>
-				<div
-					class="card flex flex-col items-center bg-teal-600 w-1/5 rounded-sm"
-				>
-					<img
-						src="https://source.unsplash.com/1000x600"
-						alt=""
-						srcset=""
-						class="grow rounded-t-sm"
-					/>
-					<div class="title text-white basis-1/6 flex items-center">
-						title title
-					</div>
-				</div>
-				<div
-					class="card flex flex-col items-center bg-teal-600 w-1/5 rounded-sm"
-				>
-					<img
-						src="https://source.unsplash.com/1000x600"
-						alt=""
-						srcset=""
-						class="grow rounded-t-sm"
-					/>
-					<div class="title text-white basis-1/6 flex items-center">
-						title title
-					</div>
-				</div>
-				<div
-					class="card flex flex-col items-center bg-teal-600 w-1/5 rounded-sm"
-				>
-					<img
-						src="https://source.unsplash.com/1000x600"
-						alt=""
-						srcset=""
-						class="grow rounded-t-sm"
-					/>
-					<div class="title text-white basis-1/6 flex items-center">
-						title title
+
+					<!-- cards -->
+					<div class="cards flex flex-col gap-8">
+						<div
+							id="post-cards"
+							class="flex flex-wrap gap-2.5 justify-center items-start px-3 w-full"
+						></div>
+						<div class="pagination flex justify-center gap-8">
+							<button id="page-prev" class="page-box">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M15.75 19.5L8.25 12l7.5-7.5"
+									/>
+								</svg>
+							</button>
+							<div id="page-posts" class="flex flex-row gap-1"></div>
+							<button id="page-next" class="page-box">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M8.25 4.5l7.5 7.5-7.5 7.5"
+									/>
+								</svg>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div> -->
-
-		<!-- select sort -->
-		<!-- <select name="sort" id="sort" class="p-3 bg-teal-400">
-			<option selected disabled>sort by</option>
-			<option value="createdAt">oldest</option>
-			<option value="-createdAt">newest</option>
-		</select> -->
-
-		<!-- search, filter -->
-		<!-- <div
-			class="search-filter w-max text-slate-300 bg-slate-800 flex flex-col p-5 gap-4 rounded-lg"
-		>
-			<div class="search flex flex-col gap-1">
-				<label for="search">Search</label>
-				<input
-					type="text"
-					name="search"
-					id="search"
-					placeholder="search post"
-					class="bg-slate-600 py-1 px-2 rounded-md"
-				/>
-			</div>
-
-			<div class="filter flex flex-col gap-2">
-				<label>Filter By Category</label>
-				<label for="category1" class="flex gap-3 items-center">
-					<input type="checkbox" name="category1" id="category1" />
-					Sport
-				</label>
-
-				<label for="category2" class="flex gap-3 items-center">
-					<input type="checkbox" name="category2" id="category2" />
-					Fiction
-				</label>
-
-				<label for="category3" class="flex gap-3 items-center">
-					<input type="checkbox" name="category3" id="category3" />
-					Animal
-				</label>
-			</div>
-		</div> -->
+		</div>
 
 		<!-- detail post -->
 		<!-- <div
-			class="detail-post flex flex-col items-center container px-20 mx-auto gap-10 py-10"
+			class="detail-post w-full h-screen flex flex-col items-center container px-20 mx-auto gap-10 py-10"
 		>
-			head section
 			<div class="head-section w-full flex flex-col items-center gap-2">
 				<div class="title text-4xl font-bold">Poetry (Shi)</div>
 				<div
@@ -168,7 +149,6 @@
 				<div class="author">by Jack Sparrow</div>
 			</div>
 
-			detail section
 			<img
 				class="w-3/4 max-h-96"
 				src="https://source.unsplash.com/1000x600"
@@ -186,7 +166,7 @@
 
 		<!-- login form -->
 		<!-- <div
-			class="login flex flex-col gap-10 items-center justify-center -translate-y-20 w-full h-screen bg-slate-500"
+			class="login flex flex-col gap-10 items-center justify-center w-full h-screen bg-slate-500"
 		>
 			<div class="title text-4xl font-bold text-slate-100">Welcome to Blog</div>
 			<form
@@ -252,7 +232,7 @@
 		</div> -->
 
 		<!-- cms posts -->
-		<!-- <div class="cms-post p-4 bg-slate-800 text-white">
+		<!-- <div class="cms-post p-4 bg-slate-800 text-white min-h-screen">
 			<div class="top-section flex justify-between m-4">
 				<div class="title text-4xl font-bold">List of Post</div>
 				<button
@@ -450,5 +430,8 @@
 				/>
 			</form>
 		</div> -->
+
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script type="module" src="main.js"></script>
 	</body>
 </html>

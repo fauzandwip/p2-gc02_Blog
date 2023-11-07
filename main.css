@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.page-box {
+		@apply w-10 h-10 border flex items-center justify-center text-white hover:bg-slate-500 active:bg-slate-700;
+	}
+}
