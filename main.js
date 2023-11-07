@@ -2,6 +2,21 @@
 
 const baseUrl = 'https://blog.fauzandp.online';
 
+const changePage = (page) => {
+	const list_page = {
+		home: document.getElementById('home-page'),
+		login: document.getElementById('login-page'),
+	};
+
+	for (const page in list_page) {
+		list_page[page].classList.add('hidden');
+	}
+
+	// const showDisplay = (page) => {
+	// };
+	list_page[page].classList.remove('hidden');
+};
+
 const fetchPosts = async (e) => {
 	try {
 		const searchValue = document.getElementById('search').value;
@@ -72,6 +87,24 @@ const fetchPosts = async (e) => {
 	}
 };
 
+const handleLogin = async (e) => {
+	e.preventDefault();
+	try {
+		console.log('loginnnn');
+		const email = document.getElementById('email-login').value;
+		const password = document.getElementById('password-login').value;
+
+		const { data } = await axios.post(`${baseUrl}/login`, {
+			email,
+			password,
+		});
+
+		localStorage.setItem('access_token', data.access_token);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 // const fetchCategories = async () => {
 // 	try {
 // 		const { data } = await axios({
@@ -109,11 +142,15 @@ const init = () => {
 	document.getElementById('page-prev').addEventListener('click', fetchPosts);
 	document.getElementById('page-next').addEventListener('click', fetchPosts);
 
-	fetchPosts();
-	// fetchCategories();
-
 	document.getElementById('search-post').addEventListener('input', fetchPosts);
 	document.getElementById('sort-post').addEventListener('change', fetchPosts);
+
+	document.getElementById('login-form').addEventListener('submit', handleLogin);
+
+	changePage('login');
+
+	fetchPosts();
+	// fetchCategories();
 };
 
 init();
