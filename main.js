@@ -6,15 +6,52 @@ const changePage = (page) => {
 	const list_page = {
 		home: document.getElementById('home-page'),
 		login: document.getElementById('login-page'),
+		createPost: document.getElementById('create-post-page'),
 	};
 
-	for (const page in list_page) {
-		list_page[page].classList.add('hidden');
+	console.log('change', page);
+	for (const key in list_page) {
+		list_page[key].classList.add('hidden');
 	}
 
 	// const showDisplay = (page) => {
 	// };
+	switch (page) {
+		case 'home':
+			list_page.home.classList.remove('hidden');
+			break;
+		case 'login':
+			list_page.login.classList.remove('hidden');
+			break;
+		case 'createPost':
+			setupCreatePostPage();
+			list_page.createPost.classList.remove('hidden');
+			break;
+
+		default:
+			break;
+	}
 	list_page[page].classList.remove('hidden');
+};
+
+const handleLogin = async (e) => {
+	e.preventDefault();
+	console.log('loginnnn');
+
+	try {
+		const email = document.getElementById('email-login').value;
+		const password = document.getElementById('password-login').value;
+
+		const { data } = await axios.post(`${baseUrl}/login`, {
+			email,
+			password,
+		});
+
+		localStorage.setItem('access_token', data.access_token);
+		changePage('createPost');
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const fetchPosts = async (e) => {
@@ -87,19 +124,53 @@ const fetchPosts = async (e) => {
 	}
 };
 
-const handleLogin = async (e) => {
-	e.preventDefault();
+const setupCreatePostPage = async () => {
 	try {
-		console.log('loginnnn');
-		const email = document.getElementById('email-login').value;
-		const password = document.getElementById('password-login').value;
-
-		const { data } = await axios.post(`${baseUrl}/login`, {
-			email,
-			password,
+		const { data } = await axios.get(`${baseUrl}/categories`, {
+			headers: {
+				Authorization: localStorage.getItem('access_token'),
+			},
 		});
+		// console.log(data);
 
-		localStorage.setItem('access_token', data.access_token);
+		const category_select = document.getElementById('category-post-form');
+		data.forEach((obj) => {
+			const optionCategory = document.createElement('option');
+			optionCategory.value = obj.id;
+			optionCategory.innerText = obj.name;
+			category_select.appendChild(optionCategory);
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const createPost = async (e) => {
+	e.preventDefault();
+	console.log('create posttt');
+
+	try {
+		const title = document.getElementById('title-post-form').value;
+		const category = document.getElementById('category-post-form').value;
+		const imgUrl = document.getElementById('imgUrl-post-form').value;
+		const content = document.getElementById('content-post-form').value;
+
+		await axios.post(
+			`${baseUrl}/posts`,
+			{
+				title,
+				categoryId: category,
+				imgUrl,
+				content,
+			},
+			{
+				headers: {
+					Authorization: localStorage.getItem('access_token'),
+				},
+			}
+		);
+
+		changePage('home');
 	} catch (error) {
 		console.log(error);
 	}
@@ -146,6 +217,9 @@ const init = () => {
 	document.getElementById('sort-post').addEventListener('change', fetchPosts);
 
 	document.getElementById('login-form').addEventListener('submit', handleLogin);
+	document
+		.getElementById('create-post-form')
+		.addEventListener('submit', createPost);
 
 	changePage('login');
 
