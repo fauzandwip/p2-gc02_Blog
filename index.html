@@ -16,7 +16,7 @@
 		<div class="main-page w-full h-screen bg-teal-300">
 			<!-- navbar -->
 			<nav
-				class="flex justify-between items-center fixed w-full bg-gray-800 py-2 px-4"
+				class="flex justify-between items-center fixed w-full bg-gray-800 py-2 px-4 shadow-md shadow-teal-500"
 			>
 				<div>
 					<img
@@ -235,6 +235,35 @@ jackkk sparrow .....</textarea
 					<input type="submit" value="Submit" class="submit-btn" />
 				</form>
 			</div>
+
+			<!-- cms posts -->
+			<div
+				id="cms-post-page"
+				class="cms-post p-4 pt-24 bg-slate-800 text-white min-h-screen"
+			>
+				<div class="top-section flex justify-between m-4">
+					<div class="title text-4xl font-bold">List of Post</div>
+					<button
+						class="create-btn bg-teal-600 py-2 px-4 rounded-full hover:bg-teal-700 active:bg-teal-800"
+					>
+						Create
+					</button>
+				</div>
+				<table class="table table-fixed border border-slate-100 m-4">
+					<thead
+						class="table-header-group border-b border-slate-100 bg-slate-700"
+					>
+						<th class="table-cell p-3 border-e">ID</th>
+						<th class="table-cell p-3 border-e">Image</th>
+						<th class="table-cell p-3 border-e">Title</th>
+						<th class="table-cell p-3 border-e">Content</th>
+						<th class="table-cell p-3 border-e">Category</th>
+						<th class="table-cell p-3 border-e">Author</th>
+						<th class="table-cell p-3 border-e">Action</th>
+					</thead>
+					<tbody id="table-post-cms" class="table-row-group"></tbody>
+				</table>
+			</div>
 		</div>
 
 		<!-- detail post -->
@@ -286,69 +315,6 @@ jackkk sparrow .....</textarea
 					<tr class="table-row">
 						<td class="table-cell px-2 py-1 border-e">3</td>
 						<td class="table-cell px-2 py-1">History</td>
-					</tr>
-				</tbody>
-			</table>
-		</div> -->
-
-		<!-- cms posts -->
-		<!-- <div class="cms-post p-4 bg-slate-800 text-white min-h-screen">
-			<div class="top-section flex justify-between m-4">
-				<div class="title text-4xl font-bold">List of Post</div>
-				<button
-					class="create-btn bg-teal-600 py-2 px-4 rounded-full hover:bg-teal-700 active:bg-teal-800"
-				>
-					Create
-				</button>
-			</div>
-			<table class="table table-fixed border border-slate-100 m-4">
-				<thead
-					class="table-header-group border-b border-slate-100 bg-slate-700"
-				>
-					<th class="table-cell p-3 border-e">ID</th>
-					<th class="table-cell p-3 border-e">Image</th>
-					<th class="table-cell p-3 border-e">Title</th>
-					<th class="table-cell p-3 border-e">Content</th>
-					<th class="table-cell p-3 border-e">Category</th>
-					<th class="table-cell p-3 border-e">Author</th>
-					<th class="table-cell p-3 border-e">Action</th>
-				</thead>
-				<tbody class="table-row-group">
-					<tr class="table-row">
-						<td class="table-cell p-3 border-e">1</td>
-						<td class="table-cell p-3 border-e">
-							<img
-								src="https://source.unsplash.com/1000x600"
-								alt="Image Post"
-								class="w-96"
-							/>
-						</td>
-						<td class="table-cell p-3 border-e">Poetry (Shi)</td>
-						<td class="table-cell p-3 border-e w-1/2">
-							<p class="line-clamp-3">
-								Supplement Left Cephalic Vein with Synthetic Substitute,
-								Percutaneous Endoscopic Approach Supplement Left Cephalic Vein
-								with Synthetic Substitute, Percutaneous Endoscopic Approach
-								Supplement Left Cephalic Vein with Synthetic Substitute,
-								Percutaneous Endoscopic Approach
-							</p>
-						</td>
-						<td class="table-cell p-3 border-e">Fiction</td>
-						<td class="table-cell p-3 border-e">Jackkk</td>
-						<td class="table-cell p-3 border-e">
-							<div class="action flex flex-col gap-1">
-								<button
-									class="bg-teal-600 py-1 px-4 rounded-sm flex justify-center hover:bg-teal-700 active:bg-teal-800"
-								>
-									Edit
-								</button>
-								<button
-									class="bg-red-500 py-1 px-4 rounded-sm flex justify-center hover:bg-red-600 active:bg-red-800"
-								>
-									Delete
-								</button>
-							</div>
-						</td>
 					</tr>
 				</tbody>
 			</table>

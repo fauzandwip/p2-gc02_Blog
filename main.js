@@ -1,12 +1,14 @@
 // const axios = require('axios').default;
 
 const baseUrl = 'https://blog.fauzandp.online';
+const Authorization = localStorage.getItem('access_token');
 
 const changePage = (page) => {
 	const list_page = {
 		home: document.getElementById('home-page'),
 		login: document.getElementById('login-page'),
 		createPost: document.getElementById('create-post-page'),
+		cmsPost: document.getElementById('cms-post-page'),
 	};
 
 	console.log('change', page);
@@ -26,6 +28,10 @@ const changePage = (page) => {
 		case 'createPost':
 			setupCreatePostPage();
 			list_page.createPost.classList.remove('hidden');
+			break;
+		case 'cmsPost':
+			fetchPostsCMS();
+			list_page.cmsPost.classList.remove('hidden');
 			break;
 
 		default:
@@ -48,7 +54,7 @@ const handleLogin = async (e) => {
 		});
 
 		localStorage.setItem('access_token', data.access_token);
-		changePage('createPost');
+		changePage('cmsPost');
 	} catch (error) {
 		console.log(error);
 	}
@@ -124,11 +130,65 @@ const fetchPosts = async (e) => {
 	}
 };
 
+const fetchPostsCMS = async () => {
+	try {
+		console.log(Authorization);
+		const { data } = await axios.get(`${baseUrl}/posts`, {
+			headers: {
+				Authorization,
+			},
+		});
+		// console.log(data);
+
+		const elements = data.map((post, i) => {
+			return `
+            <tr class="table-row odd:bg-slate-800 even:bg-slate-700">
+							<td class="table-cell p-3 border-e">${++i}</td>
+							<td class="table-cell p-3 border-e">
+								<img
+									src="${post.imgUrl}"
+									alt="Image Post"
+									class="w-96"
+								/>
+							</td>
+							<td class="table-cell p-3 border-e w-1/6">${post.title}</td>
+							<td class="table-cell p-3 border-e w-1/2">
+								<p class="line-clamp-3">
+									${post.content}
+								</p>
+							</td>
+							<td class="table-cell p-3 border-e">${post.Category.name}</td>
+							<td class="table-cell p-3 border-e">${post.Author.username}</td>
+							<td class="table-cell p-3 border-e">
+								<div class="action flex flex-col gap-1">
+									<button
+										class="bg-teal-600 py-1 px-4 rounded-sm flex justify-center hover:bg-teal-700 active:bg-teal-800"
+									>
+										Edit
+									</button>
+									<button
+										class="bg-red-500 py-1 px-4 rounded-sm flex justify-center hover:bg-red-600 active:bg-red-800"
+									>
+										Delete
+									</button>
+								</div>
+							</td>
+						</tr>
+		`;
+		});
+
+		const cards_posts = document.getElementById('table-post-cms');
+		cards_posts.innerHTML = elements.join('');
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const setupCreatePostPage = async () => {
 	try {
 		const { data } = await axios.get(`${baseUrl}/categories`, {
 			headers: {
-				Authorization: localStorage.getItem('access_token'),
+				Authorization,
 			},
 		});
 		// console.log(data);
@@ -165,12 +225,12 @@ const createPost = async (e) => {
 			},
 			{
 				headers: {
-					Authorization: localStorage.getItem('access_token'),
+					Authorization,
 				},
 			}
 		);
 
-		changePage('home');
+		changePage('cmsPost');
 	} catch (error) {
 		console.log(error);
 	}
@@ -221,7 +281,7 @@ const init = () => {
 		.getElementById('create-post-form')
 		.addEventListener('submit', createPost);
 
-	changePage('login');
+	changePage('cmsPost');
 
 	fetchPosts();
 	// fetchCategories();
