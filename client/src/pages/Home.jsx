@@ -5,6 +5,8 @@ import ButtonBox from '../components/ButtonBox';
 import CheckBox from '../components/CheckBox';
 import Input from '../components/Input';
 import Select from '../components/Select';
+import Loading from '../components/Loading';
+import Error from '../components/Error';
 
 const baseUrl = 'https://blog.fauzandp.online';
 // const Authorization = localStorage.getItem('access_token');
@@ -18,6 +20,8 @@ function Home() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPage, setTotalPage] = useState(1);
 	// const [pageRows, setPageRows] = useState([1]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
 
 	const options = {
 		oldest: 'createdAt',
@@ -91,6 +95,7 @@ function Home() {
 
 		// console.log(url);
 		try {
+			setIsLoading(true);
 			const { data } = await axios({
 				method: 'get',
 				url,
@@ -110,6 +115,9 @@ function Home() {
 			// console.log('posts', posts);
 		} catch (error) {
 			console.log(error);
+			setError(error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -120,6 +128,9 @@ function Home() {
 	useEffect(() => {
 		fetchPosts();
 	}, [search, currentPage, sort, filter]);
+
+	if (isLoading) return <Loading />;
+	if (error) return <Error error={error} />;
 
 	return (
 		<>
