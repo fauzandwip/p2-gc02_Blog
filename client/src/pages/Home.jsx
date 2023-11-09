@@ -12,26 +12,52 @@ function Home() {
 	const [search, setSearch] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPage, setTotalPage] = useState(1);
-	const [pageRows, setPageRows] = useState([1]);
+	// const [pageRows, setPageRows] = useState([1]);
 
-	const toPrevPage = () => {
-		if (currentPage > 1) {
-			console.log(currentPage);
-			setCurrentPage((prev) => prev - 1);
-			console.log(currentPage);
+	const pageRows = [];
+	for (let i = 1; i <= totalPage; i++) {
+		pageRows.push(
+			<button
+				key={i}
+				className="box page-post page-box"
+				onClick={() => setCurrentPage(i)}
+			>
+				{i}
+			</button>
+		);
+	}
+
+	const toPrevNext = (e) => {
+		const target = e.target;
+		let id = target.id;
+
+		if (!id) {
+			if (target.matches('svg')) {
+				id = target.parentNode.id;
+			}
+
+			if (target.matches('path')) {
+				id = target.parentNode.parentNode.id;
+			}
 		}
-	};
 
-	const toNextPage = () => {
-		if (currentPage < totalPage) {
-			console.log(currentPage);
-			setCurrentPage((prev) => prev + 1);
-			console.log(currentPage);
+		if (id === 'page-prev') {
+			if (currentPage > 1) {
+				setCurrentPage((prev) => prev - 1);
+			}
+			return;
+		}
+
+		if (id === 'page-next') {
+			if (currentPage < totalPage) {
+				setCurrentPage((prev) => prev + 1);
+			}
+			return;
 		}
 	};
 
 	const onSelectSort = (e) => {
-		console.log(e.target.value);
+		// console.log(e.target.value);
 		setSort(e.target.value);
 	};
 
@@ -50,36 +76,41 @@ function Home() {
 		setFilter(newArr);
 	};
 
+	const fetchPosts = async () => {
+		let url = `${baseUrl}/pub/posts?search=${search}&sort=${sort}&page[number]=${currentPage}`;
+
+		if (filter.length) {
+			url += `&filter[category]=${filter.join(',')}`;
+		}
+
+		// console.log(url);
+		try {
+			const { data } = await axios({
+				method: 'get',
+				url,
+			});
+			// console.log('data', data.data.length);
+
+			// console.log(data.totalPage);
+			setTotalPage(data.totalPage);
+			setPosts(data.data);
+			// const pageRow = [];
+			// for (let i = 1; i <= data.totalPage; i++) {
+			// 	pageRow.push(i);
+			// }
+			// console.log('posts', pageRow);
+			// setPageRows([...pageRow]);
+			// console.log('posts', posts);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
-		const fetchPosts = async () => {
-			let url = `${baseUrl}/pub/posts?search=${search}&sort=${sort}&page[number]=${currentPage}`;
+		fetchPosts();
+	}, []);
 
-			if (filter.length) {
-				url += `&filter[category]=${filter.join(',')}`;
-			}
-
-			console.log(url);
-			try {
-				const { data } = await axios({
-					method: 'get',
-					url,
-				});
-				// console.log('data', data.data.length);
-
-				// console.log(data.totalPage);
-				setTotalPage(data.totalPage);
-				setPosts(data.data);
-				const pageRow = [];
-				for (let i = 1; i <= data.totalPage; i++) {
-					pageRow.push(i);
-				}
-				// console.log('posts', pageRow);
-				setPageRows([...pageRow]);
-				// console.log('posts', posts);
-			} catch (error) {
-				console.log(error);
-			}
-		};
+	useEffect(() => {
 		fetchPosts();
 	}, [search, currentPage, sort, filter]);
 
@@ -178,7 +209,7 @@ function Home() {
 
 						<div className="pagination flex justify-center gap-8">
 							{/* prev btn */}
-							<button id="page-prev" className="page-box" onClick={toPrevPage}>
+							<button id="page-prev" className="page-box" onClick={toPrevNext}>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -197,21 +228,11 @@ function Home() {
 
 							{/* pagination */}
 							<div id="page-posts" className="flex flex-row gap-1">
-								{pageRows.map((num) => {
-									return (
-										<button
-											key={num}
-											className="box page-post page-box"
-											onClick={() => setCurrentPage(num)}
-										>
-											{num}
-										</button>
-									);
-								})}
+								{pageRows}
 							</div>
 
 							{/* next btn */}
-							<button id="page-next" className="page-box" onClick={toNextPage}>
+							<button id="page-next" className="page-box" onClick={toPrevNext}>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
