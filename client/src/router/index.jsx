@@ -3,6 +3,7 @@ import RootLayout from '../layouts/RootLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Detail from '../pages/Detail';
+import CMSPosts from '../pages/CMSPosts';
 
 const router = createBrowserRouter([
 	{
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
 			{
 				path: 'login',
 				element: <Login />,
+			},
+			{
+				path: 'posts',
+				element: <CMSPosts />,
 			},
 		],
 	},

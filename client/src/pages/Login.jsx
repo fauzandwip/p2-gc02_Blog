@@ -18,7 +18,7 @@ const Login = () => {
 				password,
 			});
 			localStorage.setItem('access_token', data.access_token);
-			navigate('/');
+			navigate('/posts');
 		} catch (error) {
 			console.log(error.response);
 		}
