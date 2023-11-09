@@ -1,5 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Card from '../components/Card';
+import ButtonBox from '../components/ButtonBox';
+import CheckBox from '../components/CheckBox';
+import InputText from '../components/InputText';
+import Select from '../components/Select';
 
 const baseUrl = 'https://blog.fauzandp.online';
 // const Authorization = localStorage.getItem('access_token');
@@ -14,16 +19,17 @@ function Home() {
 	const [totalPage, setTotalPage] = useState(1);
 	// const [pageRows, setPageRows] = useState([1]);
 
+	const options = {
+		oldest: 'createdAt',
+		newest: '-createdAt',
+	};
+
 	const pageRows = [];
 	for (let i = 1; i <= totalPage; i++) {
 		pageRows.push(
-			<button
-				key={i}
-				className="box page-post page-box"
-				onClick={() => setCurrentPage(i)}
-			>
+			<ButtonBox key={i} onClick={() => setCurrentPage(i)}>
 				{i}
-			</button>
+			</ButtonBox>
 		);
 	}
 
@@ -122,46 +128,33 @@ function Home() {
 			>
 				{/* <div className="main-title text-5xl text-slate-100">Blog Website</div> */}
 
-				<div className="main flex flex-row">
+				<div id="main" className="flex flex-row">
 					{/* SEARCH FILTER SORT */}
 					<div className="flex flex-col gap-6 items-center">
 						{/* SEARCH FILTER */}
-						<div className="search-filter w-max h-max text-slate-300 bg-slate-800 flex flex-col p-5 gap-4 rounded-lg">
+						<div className="w-max h-max text-slate-300 bg-slate-800 flex flex-col p-5 gap-4 rounded-lg">
 							{/* SEARCH by title */}
-							<div id="search-post" className="flex flex-col gap-1">
-								<label htmlFor="search">Search</label>
-								<input
-									type="text"
-									name="search"
-									id="search"
-									value={search}
-									onChange={(e) => setSearch(e.target.value)}
-									placeholder="search post"
-									className="bg-slate-600 py-1 px-2 rounded-md"
-								/>
-							</div>
+							<InputText
+								labelName={'Search'}
+								id={'search'}
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								placeholder={'search post'}
+							/>
 
 							{/* FILTER category */}
-							<div id="filter-category" className="flex flex-col gap-2 pt-2">
+							<div className="flex flex-col gap-2 pt-2">
 								<p>Filter By Category</p>
 
 								{['Sport', 'Fiction', 'Technology', 'Health'].map(
 									(category, idx) => {
 										return (
-											<label
+											<CheckBox
 												key={idx}
-												htmlFor={'category' + idx}
-												className="flex gap-3 items-center"
+												id={idx}
 												onChange={onCheck}
-											>
-												<input
-													type="checkbox"
-													name="sport"
-													value={idx + 1}
-													id={'category' + idx}
-												/>
-												{category}
-											</label>
+												text={category}
+											/>
 										);
 									}
 								)}
@@ -169,47 +162,25 @@ function Home() {
 						</div>
 
 						{/* SORT SELECT */}
-						<select
-							name="sort-post"
-							id="sort-post"
-							className="p-3 bg-teal-500 w-full rounded-md"
+						<Select
+							title={'sort by'}
+							options={options}
 							onChange={onSelectSort}
-						>
-							<option disabled>sort by</option>
-							<option value="createdAt">oldest</option>
-							<option value="-createdAt">newest</option>
-						</select>
+						/>
 					</div>
 
 					{/* CARDS */}
 					<div className="cards flex flex-col gap-10">
 						{/* cards */}
-						<div
-							id="post-cards"
-							className="flex flex-wrap gap-2.5 justify-center items-start px-3 w-full"
-						>
+						<div className="flex flex-wrap gap-2.5 justify-center items-start px-3 w-full">
 							{posts.map((post) => {
-								return (
-									<div
-										key={post.id}
-										className="card flex flex-col items-center bg-teal-600 w-48 h-60 overflow-hidden rounded-sm"
-									>
-										<img
-											src={post.imgUrl}
-											alt={post.title}
-											className="rounded-t-sm w-full h-3/4 object-cover"
-										/>
-										<div className="title text-white flex items-center text-center p-2">
-											{post.title}
-										</div>
-									</div>
-								);
+								return <Card key={post.id} data={post} />;
 							})}
 						</div>
 
 						<div className="pagination flex justify-center gap-8">
 							{/* prev btn */}
-							<button id="page-prev" className="page-box" onClick={toPrevNext}>
+							<ButtonBox id={'page-prev'} onClick={toPrevNext}>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -224,7 +195,7 @@ function Home() {
 										d="M15.75 19.5L8.25 12l7.5-7.5"
 									/>
 								</svg>
-							</button>
+							</ButtonBox>
 
 							{/* pagination */}
 							<div id="page-posts" className="flex flex-row gap-1">
@@ -232,7 +203,7 @@ function Home() {
 							</div>
 
 							{/* next btn */}
-							<button id="page-next" className="page-box" onClick={toPrevNext}>
+							<ButtonBox id={'page-next'} onClick={toPrevNext}>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -247,7 +218,7 @@ function Home() {
 										d="M8.25 4.5l7.5 7.5-7.5 7.5"
 									/>
 								</svg>
-							</button>
+							</ButtonBox>
 						</div>
 					</div>
 				</div>
