@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api';
 import { useEffect, useState } from 'react';
 import Card from '../components/Card';
 import ButtonBox from '../components/ButtonBox';
@@ -7,9 +7,6 @@ import Input from '../components/Input';
 import Select from '../components/Select';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
-
-const baseUrl = 'https://blog.fauzandp.online';
-// const Authorization = localStorage.getItem('access_token');
 
 function Home() {
 	const [posts, setPosts] = useState([]);
@@ -87,7 +84,7 @@ function Home() {
 	};
 
 	const fetchPosts = async () => {
-		let url = `${baseUrl}/pub/posts?search=${search}&sort=${sort}&page[number]=${currentPage}`;
+		let url = `/pub/posts?search=${search}&sort=${sort}&page[number]=${currentPage}`;
 
 		if (filter.length) {
 			url += `&filter[category]=${filter.join(',')}`;
@@ -129,7 +126,8 @@ function Home() {
 		fetchPosts();
 	}, [search, currentPage, sort, filter]);
 
-	if (isLoading) return <Loading />;
+	if (isLoading)
+		return <Loading bgColor={'bg-slate-600'} color={'text-white'} />;
 	if (error) return <Error error={error} />;
 
 	return (

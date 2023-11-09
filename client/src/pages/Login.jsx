@@ -2,15 +2,32 @@ import { useState } from 'react';
 import Input from '../components/Input';
 import ButtonNormal from '../components/ButtonNormal';
 import Form from '../components/Form';
+import axios from '../api/index';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+
+	const handleOnSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const { data } = await axios.post('/login', {
+				email,
+				password,
+			});
+			localStorage.setItem('access_token', data.access_token);
+			navigate('/');
+		} catch (error) {
+			console.log(error.response);
+		}
+	};
 
 	return (
 		<div className="login flex flex-col gap-10 items-center justify-center w-full h-screen bg-slate-500">
 			<div className="text-4xl font-bold text-slate-100">Welcome to Blog</div>
-			<Form>
+			<Form onSubmit={handleOnSubmit}>
 				<Input
 					labelName={'Email'}
 					id={'email-login'}
