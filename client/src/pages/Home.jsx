@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Card from '../components/Card';
 import ButtonBox from '../components/ButtonBox';
 import CheckBox from '../components/CheckBox';
-import InputText from '../components/InputText';
+import Input from '../components/Input';
 import Select from '../components/Select';
 
 const baseUrl = 'https://blog.fauzandp.online';
@@ -98,6 +98,7 @@ function Home() {
 			// console.log('data', data.data.length);
 
 			// console.log(data.totalPage);
+			if (currentPage > data.totalPage) setCurrentPage(1);
 			setTotalPage(data.totalPage);
 			setPosts(data.data);
 			// const pageRow = [];
@@ -128,13 +129,13 @@ function Home() {
 			>
 				{/* <div className="main-title text-5xl text-slate-100">Blog Website</div> */}
 
-				<div id="main" className="flex flex-row">
+				<div id="main" className="flex flex-row w-full">
 					{/* SEARCH FILTER SORT */}
-					<div className="flex flex-col gap-6 items-center">
+					<div className="flex flex-col gap-6 items-center w-1/5">
 						{/* SEARCH FILTER */}
 						<div className="w-max h-max text-slate-300 bg-slate-800 flex flex-col p-5 gap-4 rounded-lg">
 							{/* SEARCH by title */}
-							<InputText
+							<Input
 								labelName={'Search'}
 								id={'search'}
 								value={search}
@@ -170,14 +171,15 @@ function Home() {
 					</div>
 
 					{/* CARDS */}
-					<div className="cards flex flex-col gap-10">
+					<div className="flex flex-col gap-10 w-full">
 						{/* cards */}
-						<div className="flex flex-wrap gap-2.5 justify-center items-start px-3 w-full">
+						<div className="flex flex-wrap gap-2.5 justify-center items-start px-3">
 							{posts.map((post) => {
 								return <Card key={post.id} data={post} />;
 							})}
 						</div>
 
+						{/* paginations */}
 						<div className="pagination flex justify-center gap-8">
 							{/* prev btn */}
 							<ButtonBox id={'page-prev'} onClick={toPrevNext}>

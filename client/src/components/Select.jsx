@@ -14,7 +14,7 @@ const Select = ({ title, options, onChange }) => {
 		<select
 			name=""
 			id=""
-			className="p-3 bg-teal-500 w-full rounded-md"
+			className="p-3 bg-teal-500 w-full rounded-md hover:cursor-pointer"
 			onChange={onChange}
 		>
 			<option disabled key={title}>

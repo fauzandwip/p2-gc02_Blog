@@ -1,3 +1,5 @@
+import ButtonNormal from '../components/ButtonNormal';
+
 function Navbar() {
 	return (
 		<>
@@ -9,9 +11,7 @@ function Navbar() {
 						className="w-14"
 					/>
 				</div>
-				<div className="py-2 px-4 text-white h-10 rounded-lg bg-teal-600">
-					Sign In
-				</div>
+				<ButtonNormal color={'teal'}>{'Sign In'}</ButtonNormal>
 			</nav>
 		</>
 	);
