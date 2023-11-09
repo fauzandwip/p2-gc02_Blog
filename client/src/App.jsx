@@ -1,4 +1,4 @@
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import './App.css';
 import Navbar from './pages/Navbar';
 import Login from './pages/Login';

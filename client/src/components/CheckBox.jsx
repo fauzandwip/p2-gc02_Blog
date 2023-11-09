@@ -19,4 +19,5 @@ CheckBox.propTypes = {
 	id: PropTypes.number,
 	onChange: PropTypes.func,
 	text: PropTypes.string,
+	checked: PropTypes.array,
 };

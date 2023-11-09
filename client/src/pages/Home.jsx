@@ -5,8 +5,9 @@ import ButtonBox from '../components/ButtonBox';
 import CheckBox from '../components/CheckBox';
 import Input from '../components/Input';
 import Select from '../components/Select';
-import Loading from '../components/Loading';
+// import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { Link } from 'react-router-dom';
 
 function Home() {
 	const [posts, setPosts] = useState([]);
@@ -126,15 +127,33 @@ function Home() {
 		fetchPosts();
 	}, [search, currentPage, sort, filter]);
 
-	if (isLoading)
-		return <Loading bgColor={'bg-slate-600'} color={'text-white'} />;
+	let cards = (
+		<div className="flex flex-wrap gap-2.5 min-h-[500px] justify-center items-start px-3">
+			{posts.map((post) => {
+				return (
+					<Link to={`/pub/posts/${post.id}`} key={post.id}>
+						<Card data={post} />
+					</Link>
+				);
+			})}
+		</div>
+	);
+
+	if (isLoading) {
+		cards = (
+			<div className="text-center min-h-[500px] p-36 text-4xl text-white">
+				Loading...
+			</div>
+		);
+	}
+
 	if (error) return <Error error={error} />;
 
 	return (
 		<>
 			<div
 				id="home-page"
-				className="w-full min-h-screen bg-slate-600 flex flex-col pt-28 pb-8 px-20 items-center justify-evenly"
+				className="w-full min-h-screen bg-slate-600 flex flex-col pt-36 pb-8 px-20 items-center justify-start"
 			>
 				{/* <div className="main-title text-5xl text-slate-100">Blog Website</div> */}
 
@@ -181,13 +200,7 @@ function Home() {
 
 					{/* CARDS */}
 					<div className="flex flex-col gap-10 w-full">
-						{/* cards */}
-						<div className="flex flex-wrap gap-2.5 justify-center items-start px-3">
-							{posts.map((post) => {
-								return <Card key={post.id} data={post} />;
-							})}
-						</div>
-
+						{cards}
 						{/* paginations */}
 						<div className="pagination flex justify-center gap-8">
 							{/* prev btn */}

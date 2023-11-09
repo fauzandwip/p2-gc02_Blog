@@ -31,4 +31,5 @@ Select.propTypes = {
 	title: PropTypes.string,
 	options: PropTypes.object,
 	onChange: PropTypes.func,
+	currentSort: PropTypes.string,
 };

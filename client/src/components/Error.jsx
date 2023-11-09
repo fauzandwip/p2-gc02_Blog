@@ -1,15 +1,9 @@
-import PropTypes from 'prop-types';
-
-const Error = ({ error }) => {
+const Error = () => {
 	return (
-		<div className="w-full h-screen flex justify-center items-center text-4xl font-bold">
-			<p>Error fetching, please try again later, {error}</p>
+		<div className="w-full h-screen flex flex-col justify-center items-center gap-10 text-4xl font-bold">
+			<p>Error fetching, please try again later</p>
 		</div>
 	);
 };
 
 export default Error;
-
-Error.propTypes = {
-	error: PropTypes.string,
-};
