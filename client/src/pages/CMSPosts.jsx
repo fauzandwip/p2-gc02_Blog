@@ -5,6 +5,7 @@ import Table from '../components/Table';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import FormPost from './FormPost';
+import helper from '../helpers';
 
 const CMSPosts = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,19 @@ const CMSPosts = () => {
 		}
 	};
 
+	const destroyPost = async (id) => {
+		try {
+			await axios.delete(`/posts/${id}`, {
+				headers: {
+					Authorization: helper.access_token,
+				},
+			});
+			fetchPosts();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const onClick = (type, data) => {
 		switch (type) {
 			case 'add':
@@ -57,6 +71,9 @@ const CMSPosts = () => {
 						edit: true,
 					};
 				});
+				break;
+			case 'delete':
+				destroyPost(data.id);
 				break;
 		}
 	};
@@ -115,7 +132,7 @@ const CMSPosts = () => {
 				post={post}
 				setPost={setPost}
 				isOpen={open.add}
-				onClose={(e) => onClose(e)}
+				onClose={onClose}
 				titleForm={'Add New Post'}
 				fetchPosts={fetchPosts}
 			></FormPost>
@@ -125,7 +142,7 @@ const CMSPosts = () => {
 				post={post}
 				setPost={setPost}
 				isOpen={open.edit}
-				onClose={(e) => onClose(e)}
+				onClose={onClose}
 				titleForm={'Edit Post'}
 				fetchPosts={fetchPosts}
 			></FormPost>

@@ -146,11 +146,7 @@ const FormPost = ({
 						isRequired={true}
 						value={content}
 					/>
-					<ButtonNormal
-						onClick={() => console.log('clickk')}
-						type={'submit'}
-						color={'teal-light'}
-					>
+					<ButtonNormal type={'submit'} color={'teal-light'}>
 						Submit
 					</ButtonNormal>
 				</Form>

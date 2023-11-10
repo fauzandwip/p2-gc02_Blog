@@ -31,7 +31,9 @@ const RowCell = ({ data, index, onClick }) => {
 					>
 						Edit
 					</ButtonNormal>
-					<ButtonNormal color={'red'}>Delete</ButtonNormal>
+					<ButtonNormal color={'red'} onClick={() => onClick('delete', { id })}>
+						Delete
+					</ButtonNormal>
 				</div>
 			</td>
 		</tr>
