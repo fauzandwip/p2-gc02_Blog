@@ -4,17 +4,24 @@ import ButtonNormal from '../components/ButtonNormal';
 import Table from '../components/Table';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
-import AddPost from './AddPost';
+import FormPost from './FormPost';
 
 const CMSPosts = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [posts, setPosts] = useState([]);
+	const [post, setPost] = useState({
+		id: undefined,
+		title: '',
+		content: '',
+		categoryId: undefined,
+		imgUrl: '',
+	});
 	const [open, setOpen] = useState({
 		add: false,
+		edit: false,
 	});
 
-	console.log('trigerr');
 	const fetchPosts = async () => {
 		try {
 			setIsLoading(true);
@@ -23,7 +30,6 @@ const CMSPosts = () => {
 					Authorization: localStorage.getItem('access_token'),
 				},
 			});
-			// console.log('trigerr fetch');
 			setPosts(data);
 		} catch (error) {
 			console.log(error);
@@ -33,35 +39,42 @@ const CMSPosts = () => {
 		}
 	};
 
-	const onClick = (type) => {
+	const onClick = (type, data) => {
 		switch (type) {
 			case 'add':
-				setOpen({
-					...open,
-					add: true,
+				setOpen((prev) => {
+					return {
+						...prev,
+						add: true,
+					};
 				});
 				break;
-
-			default:
+			case 'edit':
+				setPost(data);
+				setOpen((prev) => {
+					return {
+						...prev,
+						edit: true,
+					};
+				});
 				break;
 		}
-		// console.log(open);
 	};
 
-	const onClose = (e, type) => {
+	const onClose = (e) => {
 		e.preventDefault();
 
-		switch (type) {
-			case 'add':
-				setOpen({
-					...open,
-					add: false,
-				});
-				break;
-
-			default:
-				break;
-		}
+		setOpen({
+			add: false,
+			edit: false,
+		});
+		setPost({
+			id: undefined,
+			title: '',
+			content: '',
+			categoryId: undefined,
+			imgUrl: '',
+		});
 	};
 
 	useEffect(() => {
@@ -95,13 +108,27 @@ const CMSPosts = () => {
 						Create
 					</ButtonNormal>
 				</div>
-				<Table tableHeads={tableHeads} datas={posts} />
+				<Table tableHeads={tableHeads} datas={posts} onClick={onClick} />
 			</div>
-			<AddPost
+			{/* ADD POST */}
+			<FormPost
+				post={post}
+				setPost={setPost}
 				isOpen={open.add}
-				onClose={(e) => onClose(e, 'add')}
+				onClose={(e) => onClose(e)}
+				titleForm={'Add New Post'}
 				fetchPosts={fetchPosts}
-			></AddPost>
+			></FormPost>
+
+			{/* EDIT POST */}
+			<FormPost
+				post={post}
+				setPost={setPost}
+				isOpen={open.edit}
+				onClose={(e) => onClose(e)}
+				titleForm={'Edit Post'}
+				fetchPosts={fetchPosts}
+			></FormPost>
 		</>
 	);
 };

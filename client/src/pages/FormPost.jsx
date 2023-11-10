@@ -8,18 +8,23 @@ import Input from '../components/Input';
 import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 
-const AddPost = ({ isOpen, onClose, fetchPosts }) => {
-	const [title, setTitle] = useState('');
-	const [imgUrl, setImgURL] = useState('');
-	const [categoryId, setCategoryId] = useState('default');
+const FormPost = ({
+	isOpen,
+	post,
+	setPost,
+	onClose,
+	titleForm,
+	fetchPosts,
+}) => {
+	const { id, title, content, imgUrl, categoryId } = post;
+
 	const [categories, setCategories] = useState([]);
-	const [content, setContent] = useState('');
 
 	const fetchCategories = async () => {
 		try {
 			const { data } = await axios.get('/categories', {
 				headers: {
-					Authorization: localStorage.getItem('access_token'),
+					Authorization: helper.access_token,
 				},
 			});
 
@@ -33,20 +38,37 @@ const AddPost = ({ isOpen, onClose, fetchPosts }) => {
 		e.preventDefault();
 
 		try {
-			await axios.post(
-				'/posts',
-				{
-					title,
-					content,
-					categoryId: Number(categoryId),
-					imgUrl,
-				},
-				{
-					headers: {
-						Authorization: helper.access_token,
+			if (id) {
+				await axios.put(
+					`/posts/${id}`,
+					{
+						title: title,
+						content: content,
+						categoryId: Number(categoryId),
+						imgUrl: imgUrl,
 					},
-				}
-			);
+					{
+						headers: {
+							Authorization: helper.access_token,
+						},
+					}
+				);
+			} else {
+				await axios.post(
+					'/posts',
+					{
+						title: title,
+						content: content,
+						categoryId: Number(categoryId),
+						imgUrl: imgUrl,
+					},
+					{
+						headers: {
+							Authorization: helper.access_token,
+						},
+					}
+				);
+			}
 
 			onClose(e);
 			fetchPosts();
@@ -68,20 +90,22 @@ const AddPost = ({ isOpen, onClose, fetchPosts }) => {
 			>
 				{/* OUTER BACKGROUND */}
 				<div
-					className={`text-slate-100 fixed top-0 w-full h-screen z-9 bg-slate-600/50 backdrop-blur-sm flex justify-center items-center ${
-						isOpen ? '' : 'hidden'
-					}`}
+					className="text-slate-100 fixed top-0 w-full h-screen z-9 bg-slate-600/50 backdrop-blur-sm flex justify-center items-center"
 					onClick={onClose}
 				></div>
 
 				{/* FORM */}
 				<Form onSubmit={handleOnSubmit} className={'w-1/2 z-10'}>
-					<div className="text-4xl text-center mb-4">Add New Post</div>
+					<div className="text-4xl text-center mb-4">{titleForm}</div>
 					<Input
 						labelName={'Title'}
 						id={'title-post-form'}
 						value={title}
-						onChange={(e) => setTitle(e.target.value)}
+						onChange={(e) => {
+							setPost((prev) => {
+								return { ...prev, title: e.target.value };
+							});
+						}}
 						placeholder={'title'}
 						isRequired={true}
 					/>
@@ -90,22 +114,34 @@ const AddPost = ({ isOpen, onClose, fetchPosts }) => {
 						labelName={'Category'}
 						title={'Category'}
 						options={categories}
-						value={categoryId}
+						value={`${categoryId}`}
 						isRequired={true}
-						onChange={(e) => setCategoryId(e.target.value)}
+						onChange={(e) => {
+							setPost((prev) => {
+								return { ...prev, categoryId: e.target.value };
+							});
+						}}
 					/>
 					<Input
 						labelName={'Image URL'}
 						id={'imgUrl-post-form'}
 						value={imgUrl}
-						onChange={(e) => setImgURL(e.target.value)}
+						onChange={(e) => {
+							setPost((prev) => {
+								return { ...prev, imgUrl: e.target.value };
+							});
+						}}
 						placeholder={'https://example.com'}
 					/>
 					<TextArea
 						labelName={'Content'}
 						id={'textarea-post-form'}
 						rows={7}
-						onChange={(e) => setContent(e.target.value)}
+						onChange={(e) => {
+							setPost((prev) => {
+								return { ...prev, content: e.target.value };
+							});
+						}}
 						placeholder={'jackkk sparrow .....'}
 						isRequired={true}
 						value={content}
@@ -123,10 +159,13 @@ const AddPost = ({ isOpen, onClose, fetchPosts }) => {
 	);
 };
 
-export default AddPost;
+export default FormPost;
 
-AddPost.propTypes = {
+FormPost.propTypes = {
 	isOpen: PropTypes.bool,
+	post: PropTypes.object,
+	setPost: PropTypes.func,
 	onClose: PropTypes.func,
+	titleForm: PropTypes.string,
 	fetchPosts: PropTypes.func,
 };

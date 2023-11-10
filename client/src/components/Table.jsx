@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import RowCell from './RowCell';
 
-const Table = ({ tableHeads, datas }) => {
+const Table = ({ tableHeads, datas, onClick }) => {
 	return (
 		<table className="table table-fixed border border-slate-100 m-4">
 			<thead>
@@ -17,7 +17,9 @@ const Table = ({ tableHeads, datas }) => {
 			</thead>
 			<tbody>
 				{datas.map((data, idx) => {
-					return <RowCell key={data.id} data={data} index={idx} />;
+					return (
+						<RowCell key={data.id} data={data} index={idx} onClick={onClick} />
+					);
 				})}
 			</tbody>
 		</table>
@@ -29,4 +31,5 @@ export default Table;
 Table.propTypes = {
 	tableHeads: PropTypes.array,
 	datas: PropTypes.array,
+	onClick: PropTypes.func,
 };
