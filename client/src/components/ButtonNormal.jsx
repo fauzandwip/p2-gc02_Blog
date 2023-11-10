@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ButtonNormal = ({ type, color, children }) => {
+const ButtonNormal = ({ type, color, onClick, children }) => {
 	const colorVariants = {
 		red: 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white',
 		teal: 'bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white',
@@ -14,7 +14,11 @@ const ButtonNormal = ({ type, color, children }) => {
 		return <input type="submit" value={children} className={className} />;
 	}
 
-	return <button className={className}>{children}</button>;
+	return (
+		<button className={className} onClick={onClick}>
+			{children}
+		</button>
+	);
 };
 
 export default ButtonNormal;
@@ -22,5 +26,6 @@ export default ButtonNormal;
 ButtonNormal.propTypes = {
 	type: PropTypes.string,
 	color: PropTypes.string,
+	onClick: PropTypes.func,
 	children: PropTypes.any,
 };

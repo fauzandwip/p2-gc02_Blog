@@ -12,19 +12,24 @@ import { Link } from 'react-router-dom';
 function Home() {
 	const [posts, setPosts] = useState([]);
 
-	const [sort, setSort] = useState('createdAt');
+	const [sort, setSort] = useState('-createdAt');
 	const [filter, setFilter] = useState([]);
 	const [search, setSearch] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPage, setTotalPage] = useState(1);
-	// const [pageRows, setPageRows] = useState([1]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	const options = {
-		oldest: 'createdAt',
-		newest: '-createdAt',
-	};
+	const options = [
+		{
+			id: 'createdAt',
+			name: 'oldest',
+		},
+		{
+			id: '-createdAt',
+			name: 'newest',
+		},
+	];
 
 	const pageRows = [];
 	for (let i = 1; i <= totalPage; i++) {
@@ -65,7 +70,6 @@ function Home() {
 	};
 
 	const onSelectSort = (e) => {
-		// console.log(e.target.value);
 		setSort(e.target.value);
 	};
 
@@ -104,13 +108,6 @@ function Home() {
 			if (currentPage > data.totalPage) setCurrentPage(1);
 			setTotalPage(data.totalPage);
 			setPosts(data.data);
-			// const pageRow = [];
-			// for (let i = 1; i <= data.totalPage; i++) {
-			// 	pageRow.push(i);
-			// }
-			// console.log('posts', pageRow);
-			// setPageRows([...pageRow]);
-			// console.log('posts', posts);
 		} catch (error) {
 			console.log(error);
 			setError(error);
@@ -195,6 +192,7 @@ function Home() {
 							title={'sort by'}
 							options={options}
 							onChange={onSelectSort}
+							value={sort}
 						/>
 					</div>
 
