@@ -15,7 +15,7 @@ const Detail = () => {
 		try {
 			setIsLoading(true);
 			const { data } = await axios.get(`/pub/posts/${id}`);
-			console.log(data);
+			// console.log(data);
 			setPost(data);
 		} catch (error) {
 			setError(error);
@@ -28,7 +28,7 @@ const Detail = () => {
 		fetchPost();
 	}, []);
 
-	if (isLoading) return <Loading></Loading>;
+	if (isLoading) return <Loading />;
 	if (error) return <Error error={error} />;
 
 	return (

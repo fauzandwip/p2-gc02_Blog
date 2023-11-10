@@ -4,6 +4,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Detail from '../pages/Detail';
 import CMSPosts from '../pages/CMSPosts';
+import Category from '../pages/Category';
 
 const router = createBrowserRouter([
 	{
@@ -15,11 +16,11 @@ const router = createBrowserRouter([
 				element: <Home />,
 			},
 			{
-				path: '/pub/posts',
+				path: 'pub/posts',
 				element: <Home />,
 			},
 			{
-				path: '/pub/posts/:id',
+				path: 'pub/posts/:id',
 				element: <Detail />,
 			},
 			{
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
 			{
 				path: 'posts',
 				element: <CMSPosts />,
+			},
+			{
+				path: 'categories',
+				element: <Category />,
 			},
 		],
 	},

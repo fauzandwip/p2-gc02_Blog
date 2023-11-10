@@ -5,7 +5,6 @@ import Table from '../components/Table';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import FormPost from './FormPost';
-import helper from '../helpers';
 
 const CMSPosts = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +43,7 @@ const CMSPosts = () => {
 		try {
 			await axios.delete(`/posts/${id}`, {
 				headers: {
-					Authorization: helper.access_token,
+					Authorization: localStorage.getItem('access_token'),
 				},
 			});
 			fetchPosts();

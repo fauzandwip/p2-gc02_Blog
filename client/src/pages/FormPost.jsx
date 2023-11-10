@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import axios from '../api';
-import helper from '../helpers';
 import ButtonNormal from '../components/ButtonNormal';
 import Form from '../components/Form';
 import Input from '../components/Input';
 import Select from '../components/Select';
 import TextArea from '../components/TextArea';
+import Loading from '../components/Loading';
+import Error from '../components/Error';
 
 const FormPost = ({
 	isOpen,
@@ -18,19 +19,25 @@ const FormPost = ({
 }) => {
 	const { id, title, content, imgUrl, categoryId } = post;
 
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
 	const [categories, setCategories] = useState([]);
 
 	const fetchCategories = async () => {
 		try {
+			setIsLoading(true);
 			const { data } = await axios.get('/categories', {
 				headers: {
-					Authorization: helper.access_token,
+					Authorization: localStorage.getItem('access_token'),
 				},
 			});
 
 			setCategories(data);
 		} catch (error) {
 			console.log(error);
+			setError(error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -49,7 +56,7 @@ const FormPost = ({
 					},
 					{
 						headers: {
-							Authorization: helper.access_token,
+							Authorization: localStorage.getItem('access_token'),
 						},
 					}
 				);
@@ -64,7 +71,7 @@ const FormPost = ({
 					},
 					{
 						headers: {
-							Authorization: helper.access_token,
+							Authorization: localStorage.getItem('access_token'),
 						},
 					}
 				);
@@ -80,6 +87,18 @@ const FormPost = ({
 	useEffect(() => {
 		fetchCategories();
 	}, []);
+
+	if (isLoading) {
+		return (
+			<Loading bgColor={'bg-slate-800'} color={'text-slate-100'}>
+				...
+			</Loading>
+		);
+	}
+
+	if (error) {
+		return <Error />;
+	}
 
 	return (
 		<>
