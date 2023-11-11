@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
 	const [posts, setPosts] = useState([]);
+	const [categories, setCategories] = useState([]);
 
 	const [sort, setSort] = useState('-createdAt');
 	const [filter, setFilter] = useState([]);
@@ -88,6 +89,19 @@ function Home() {
 		setFilter(newArr);
 	};
 
+	const fetchCategories = async () => {
+		try {
+			setIsLoading(true);
+			const { data } = await axios.get('/categories');
+			setCategories(data);
+		} catch (error) {
+			// console.log(error);
+			setError(error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	const fetchPosts = async () => {
 		let url = `/pub/posts?search=${search}&sort=${sort}&page[number]=${currentPage}`;
 
@@ -95,21 +109,18 @@ function Home() {
 			url += `&filter[category]=${filter.join(',')}`;
 		}
 
-		// console.log(url);
 		try {
 			setIsLoading(true);
 			const { data } = await axios({
 				method: 'get',
 				url,
 			});
-			// console.log('data', data.data.length);
 
-			// console.log(data.totalPage);
 			if (currentPage > data.totalPage) setCurrentPage(1);
 			setTotalPage(data.totalPage);
 			setPosts(data.data);
 		} catch (error) {
-			console.log(error);
+			// console.log(error);
 			setError(error);
 		} finally {
 			setIsLoading(false);
@@ -117,6 +128,7 @@ function Home() {
 	};
 
 	useEffect(() => {
+		fetchCategories();
 		fetchPosts();
 	}, []);
 
@@ -172,18 +184,11 @@ function Home() {
 							<div className="flex flex-col gap-2 pt-2">
 								<p>Filter By Category</p>
 
-								{['Sport', 'Fiction', 'Technology', 'Health'].map(
-									(category, idx) => {
-										return (
-											<CheckBox
-												key={idx}
-												id={idx}
-												onChange={onCheck}
-												text={category}
-											/>
-										);
-									}
-								)}
+								{categories.map(({ id, name }) => {
+									return (
+										<CheckBox key={id} id={id} onChange={onCheck} text={name} />
+									);
+								})}
 							</div>
 						</div>
 

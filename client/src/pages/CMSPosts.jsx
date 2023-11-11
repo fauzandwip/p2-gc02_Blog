@@ -6,6 +6,7 @@ import Loading from '../components/Loading';
 import Error from '../components/Error';
 import FormPost from './FormPost';
 import UpdateImage from './UpdateImage';
+import Swal from 'sweetalert2';
 // import { useLocation } from 'react-router-dom';
 
 const CMSPosts = () => {
@@ -46,10 +47,14 @@ const CMSPosts = () => {
 
 	const destroyPost = async (id) => {
 		try {
-			await axios.delete(`/posts/${id}`, {
+			const { data } = await axios.delete(`/posts/${id}`, {
 				headers: {
 					Authorization: localStorage.getItem('access_token'),
 				},
+			});
+			Swal.fire({
+				title: data.message,
+				icon: 'success',
 			});
 			fetchPosts();
 		} catch (error) {

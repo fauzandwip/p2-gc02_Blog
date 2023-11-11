@@ -7,7 +7,7 @@ const CheckBox = ({ id, onChange, text }) => {
 			className="flex gap-3 items-center"
 			onChange={onChange}
 		>
-			<input type="checkbox" name="sport" value={id + 1} id={'category' + id} />
+			<input type="checkbox" name="sport" value={id} id={'category' + id} />
 			{text}
 		</label>
 	);
