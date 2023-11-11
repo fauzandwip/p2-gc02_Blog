@@ -1,15 +1,11 @@
 // import Home from './pages/Home';
 import './App.css';
-import Navbar from './pages/Navbar';
-import Login from './pages/Login';
+import { RouterProvider } from 'react-router-dom';
+
+import router from './router';
 
 function App() {
-	return (
-		<>
-			<Navbar></Navbar>
-			<Login></Login>
-		</>
-	);
+	return <RouterProvider router={router} />;
 }
 
 export default App;
