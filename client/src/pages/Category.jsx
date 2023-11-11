@@ -13,7 +13,7 @@ const Category = () => {
 			setIsLoading(true);
 			const { data } = await axios.get('/categories', {
 				headers: {
-					Authorization: localStorage.getItem('access_token'),
+					Authorization: `Bearer ${localStorage.getItem('access_token')}`,
 				},
 			});
 			setCategories(data);

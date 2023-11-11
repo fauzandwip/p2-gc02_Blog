@@ -33,7 +33,7 @@ const UpdateImage = ({ post, isOpen, onClose, fetchPosts }) => {
 				formData,
 				{
 					headers: {
-						Authorization: localStorage.getItem('access_token'),
+						Authorization: `Bearer ${localStorage.getItem('access_token')}`,
 						'Content-Type': 'multipart/form-data',
 					},
 				}

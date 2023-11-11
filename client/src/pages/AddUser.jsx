@@ -22,7 +22,7 @@ const AddUser = () => {
 		try {
 			await axios.post('/add-user', user, {
 				headers: {
-					Authorization: localStorage.getItem('access_token'),
+					Authorization: `Bearer ${localStorage.getItem('access_token')}`,
 				},
 			});
 

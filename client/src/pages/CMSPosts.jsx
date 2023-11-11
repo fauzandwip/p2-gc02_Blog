@@ -30,7 +30,7 @@ const CMSPosts = () => {
 			setIsLoading(true);
 			const { data } = await axios.get('/posts', {
 				headers: {
-					Authorization: localStorage.getItem('access_token'),
+					Authorization: `Bearer ${localStorage.getItem('access_token')}`,
 				},
 			});
 			setPosts(data);
@@ -45,7 +45,7 @@ const CMSPosts = () => {
 		try {
 			const { data } = await axios.delete(`/posts/${id}`, {
 				headers: {
-					Authorization: localStorage.getItem('access_token'),
+					Authorization: `Bearer ${localStorage.getItem('access_token')}`,
 				},
 			});
 			toast.success(data.message);
