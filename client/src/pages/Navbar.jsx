@@ -44,7 +44,7 @@ const Navbar = ({ token, setToken }) => {
 
 	return (
 		<>
-			<nav className="flex justify-between items-center fixed w-full bg-gray-800 px-24 shadow-md shadow-teal-500">
+			<nav className="flex justify-between items-center fixed w-full bg-gray-800 px-24 shadow-md shadow-teal-500 z-20">
 				<div className="flex flex-row gap-10">
 					<img
 						src="https://images.tokopedia.net/img/FZfiOH/2021/6/11/9cc90aa3-90d4-4560-bf75-c881573fc2d4.png"

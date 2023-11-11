@@ -49,10 +49,8 @@ const FormPost = ({
 				await axios.put(
 					`/posts/${id}`,
 					{
-						title: title,
-						content: content,
+						...post,
 						categoryId: Number(categoryId),
-						imgUrl: imgUrl,
 					},
 					{
 						headers: {
@@ -64,10 +62,8 @@ const FormPost = ({
 				await axios.post(
 					'/posts',
 					{
-						title: title,
-						content: content,
+						...post,
 						categoryId: Number(categoryId),
-						imgUrl: imgUrl,
 					},
 					{
 						headers: {
@@ -103,18 +99,18 @@ const FormPost = ({
 	return (
 		<>
 			<div
-				className={`text-slate-100 fixed top-0 w-full h-screen z-10 flex justify-center items-center ${
+				className={`text-slate-100 fixed top-0 w-full h-screen z-30 flex justify-center items-center ${
 					isOpen ? '' : 'hidden'
 				}`}
 			>
 				{/* OUTER BACKGROUND */}
 				<div
-					className="text-slate-100 fixed top-0 w-full h-screen z-9 bg-slate-600/50 backdrop-blur-sm flex justify-center items-center"
+					className="text-slate-100 fixed top-0 w-full h-screen z-20 bg-slate-600/50 backdrop-blur-sm flex justify-center items-center"
 					onClick={onClose}
 				></div>
 
 				{/* FORM */}
-				<Form onSubmit={handleOnSubmit} className={'w-1/2 z-10'}>
+				<Form onSubmit={handleOnSubmit} className={'w-1/2 z-30 h-max'}>
 					<div className="text-4xl text-center mb-4">{titleForm}</div>
 					<Input
 						labelName={'Title'}
@@ -154,7 +150,7 @@ const FormPost = ({
 					/>
 					<TextArea
 						labelName={'Content'}
-						id={'textarea-post-form'}
+						id={'content-post-form'}
 						rows={7}
 						onChange={(e) => {
 							setPost((prev) => {

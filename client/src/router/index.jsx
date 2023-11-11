@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Detail from '../pages/Detail';
 import CMSPosts from '../pages/CMSPosts';
 import Category from '../pages/Category';
+import AddUser from '../pages/AddUser';
 
 const router = createBrowserRouter([
 	{
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
 			{
 				path: 'login',
 				element: <Login />,
+			},
+			{
+				path: 'add-user',
+				element: <AddUser />,
 			},
 			{
 				path: 'posts',
