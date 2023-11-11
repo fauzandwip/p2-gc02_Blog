@@ -8,6 +8,7 @@ import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { toast } from 'react-toastify';
 
 const FormPost = ({
 	isOpen,
@@ -58,6 +59,7 @@ const FormPost = ({
 						},
 					}
 				);
+				toast.success('Success update post');
 			} else {
 				await axios.post(
 					'/posts',
@@ -71,12 +73,16 @@ const FormPost = ({
 						},
 					}
 				);
+				toast.success('Success create post');
 			}
 
 			onClose(e);
 			fetchPosts();
 		} catch (error) {
 			console.log(error);
+			error.response.data.messages.forEach((message) => {
+				toast.error(message);
+			});
 		}
 	};
 
@@ -106,7 +112,10 @@ const FormPost = ({
 				{/* OUTER BACKGROUND */}
 				<div
 					className="text-slate-100 fixed top-0 w-full h-screen z-20 bg-slate-600/50 backdrop-blur-sm flex justify-center items-center"
-					onClick={onClose}
+					onClick={(e) => {
+						toast.dismiss();
+						onClose(e);
+					}}
 				></div>
 
 				{/* FORM */}

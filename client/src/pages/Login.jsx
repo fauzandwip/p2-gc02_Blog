@@ -4,6 +4,7 @@ import ButtonNormal from '../components/ButtonNormal';
 import Form from '../components/Form';
 import axios from '../api/index';
 import { useNavigate, useOutletContext } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -22,7 +23,8 @@ const Login = () => {
 			setToken(localStorage.getItem('access_token'));
 			navigate('/posts');
 		} catch (error) {
-			console.log(error.response);
+			// console.log(error.response.data);
+			toast.error(error.response.data.message);
 		}
 	};
 

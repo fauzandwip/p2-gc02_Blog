@@ -4,6 +4,7 @@ import Input from '../components/Input';
 import TextArea from '../components/TextArea';
 import ButtonNormal from '../components/ButtonNormal';
 import axios from '../api';
+import { toast } from 'react-toastify';
 
 const AddUser = () => {
 	const [user, setUser] = useState({
@@ -23,8 +24,18 @@ const AddUser = () => {
 					Authorization: localStorage.getItem('access_token'),
 				},
 			});
+
+			toast.success('Success create staff');
 		} catch (error) {
-			console.log(error.response.data.messages);
+			console.log(error.response.data);
+			const errMessage = error.response.data.message;
+			if (errMessage) {
+				toast.error(errMessage);
+			} else {
+				error.response.data.messages.forEach((message) => {
+					toast.error(message);
+				});
+			}
 		}
 	};
 
