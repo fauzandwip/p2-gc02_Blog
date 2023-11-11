@@ -5,8 +5,10 @@ import Table from '../components/Table';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import FormPost from './FormPost';
+// import { useLocation } from 'react-router-dom';
 
 const CMSPosts = () => {
+	// const location = useLocation();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [posts, setPosts] = useState([]);
@@ -22,6 +24,7 @@ const CMSPosts = () => {
 		edit: false,
 	});
 
+	// console.log(location);
 	const fetchPosts = async () => {
 		try {
 			setIsLoading(true);

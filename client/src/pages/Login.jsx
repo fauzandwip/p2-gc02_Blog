@@ -3,12 +3,13 @@ import Input from '../components/Input';
 import ButtonNormal from '../components/ButtonNormal';
 import Form from '../components/Form';
 import axios from '../api/index';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 
 const Login = () => {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [, setToken] = useOutletContext();
 
 	const handleOnSubmit = async (e) => {
 		e.preventDefault();
@@ -18,6 +19,7 @@ const Login = () => {
 				password,
 			});
 			localStorage.setItem('access_token', data.access_token);
+			setToken(localStorage.getItem('access_token'));
 			navigate('/posts');
 		} catch (error) {
 			console.log(error.response);
