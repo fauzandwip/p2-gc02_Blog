@@ -5,6 +5,7 @@ import Table from '../components/Table';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import FormPost from './FormPost';
+import UpdateImage from './UpdateImage';
 // import { useLocation } from 'react-router-dom';
 
 const CMSPosts = () => {
@@ -22,6 +23,7 @@ const CMSPosts = () => {
 	const [open, setOpen] = useState({
 		add: false,
 		edit: false,
+		upload: false,
 	});
 
 	// console.log(location);
@@ -74,6 +76,20 @@ const CMSPosts = () => {
 					};
 				});
 				break;
+			case 'upload':
+				setPost((prev) => {
+					return {
+						...prev,
+						id: data.id,
+					};
+				});
+				setOpen((prev) => {
+					return {
+						...prev,
+						upload: true,
+					};
+				});
+				break;
 			case 'delete':
 				destroyPost(data.id);
 				break;
@@ -86,6 +102,7 @@ const CMSPosts = () => {
 		setOpen({
 			add: false,
 			edit: false,
+			upload: false,
 		});
 		setPost({
 			id: undefined,
@@ -137,7 +154,7 @@ const CMSPosts = () => {
 				onClose={onClose}
 				titleForm={'Add New Post'}
 				fetchPosts={fetchPosts}
-			></FormPost>
+			/>
 
 			{/* EDIT POST */}
 			<FormPost
@@ -147,7 +164,13 @@ const CMSPosts = () => {
 				onClose={onClose}
 				titleForm={'Edit Post'}
 				fetchPosts={fetchPosts}
-			></FormPost>
+			/>
+			<UpdateImage
+				post={post}
+				isOpen={open.upload}
+				onClose={onClose}
+				fetchPosts={fetchPosts}
+			/>
 		</>
 	);
 };
