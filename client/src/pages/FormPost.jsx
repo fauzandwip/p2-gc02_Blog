@@ -9,6 +9,7 @@ import TextArea from '../components/TextArea';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const FormPost = ({
 	isOpen,
@@ -59,7 +60,10 @@ const FormPost = ({
 						},
 					}
 				);
-				toast.success('Success update post');
+				Swal.fire({
+					title: 'Success update post!',
+					icon: 'success',
+				});
 			} else {
 				await axios.post(
 					'/posts',
@@ -73,7 +77,10 @@ const FormPost = ({
 						},
 					}
 				);
-				toast.success('Success create post');
+				Swal.fire({
+					title: 'Success create post!',
+					icon: 'success',
+				});
 			}
 
 			onClose(e);

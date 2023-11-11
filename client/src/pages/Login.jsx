@@ -5,6 +5,7 @@ import Form from '../components/Form';
 import axios from '../api/index';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -22,6 +23,10 @@ const Login = () => {
 			localStorage.setItem('access_token', data.access_token);
 			setToken(localStorage.getItem('access_token'));
 			navigate('/posts');
+			Swal.fire({
+				title: 'Login Successfully!',
+				icon: 'success',
+			});
 		} catch (error) {
 			// console.log(error.response.data);
 			toast.error(error.response.data.message);

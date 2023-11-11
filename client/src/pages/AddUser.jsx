@@ -5,6 +5,7 @@ import TextArea from '../components/TextArea';
 import ButtonNormal from '../components/ButtonNormal';
 import axios from '../api';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const AddUser = () => {
 	const [user, setUser] = useState({
@@ -25,7 +26,10 @@ const AddUser = () => {
 				},
 			});
 
-			toast.success('Success create staff');
+			Swal.fire({
+				title: 'Success create staff!',
+				icon: 'success',
+			});
 		} catch (error) {
 			console.log(error.response.data);
 			const errMessage = error.response.data.message;
