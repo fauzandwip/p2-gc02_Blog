@@ -6,11 +6,9 @@ import Loading from '../components/Loading';
 import Error from '../components/Error';
 import FormPost from './FormPost';
 import UpdateImage from './UpdateImage';
-import Swal from 'sweetalert2';
-// import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CMSPosts = () => {
-	// const location = useLocation();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [posts, setPosts] = useState([]);
@@ -27,7 +25,6 @@ const CMSPosts = () => {
 		upload: false,
 	});
 
-	// console.log(location);
 	const fetchPosts = async () => {
 		try {
 			setIsLoading(true);
@@ -38,7 +35,6 @@ const CMSPosts = () => {
 			});
 			setPosts(data);
 		} catch (error) {
-			console.log(error);
 			setError(error);
 		} finally {
 			setIsLoading(false);
@@ -52,13 +48,10 @@ const CMSPosts = () => {
 					Authorization: localStorage.getItem('access_token'),
 				},
 			});
-			Swal.fire({
-				title: data.message,
-				icon: 'success',
-			});
+			toast.success(data.message);
 			fetchPosts();
 		} catch (error) {
-			console.log(error);
+			toast.error(error.response.data.message);
 		}
 	};
 
@@ -72,6 +65,7 @@ const CMSPosts = () => {
 					};
 				});
 				break;
+
 			case 'edit':
 				setPost(data);
 				setOpen((prev) => {
@@ -81,6 +75,7 @@ const CMSPosts = () => {
 					};
 				});
 				break;
+
 			case 'upload':
 				setPost((prev) => {
 					return {
@@ -95,6 +90,7 @@ const CMSPosts = () => {
 					};
 				});
 				break;
+
 			case 'delete':
 				destroyPost(data.id);
 				break;

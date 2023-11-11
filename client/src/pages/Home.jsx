@@ -95,7 +95,6 @@ function Home() {
 			const { data } = await axios.get('/categories');
 			setCategories(data);
 		} catch (error) {
-			// console.log(error);
 			setError(error);
 		} finally {
 			setIsLoading(false);
@@ -120,7 +119,6 @@ function Home() {
 			setTotalPage(data.totalPage);
 			setPosts(data.data);
 		} catch (error) {
-			// console.log(error);
 			setError(error);
 		} finally {
 			setIsLoading(false);
@@ -164,8 +162,6 @@ function Home() {
 				id="home-page"
 				className="w-full min-h-screen bg-slate-600 flex flex-col pt-36 pb-8 px-20 items-center justify-start"
 			>
-				{/* <div className="main-title text-5xl text-slate-100">Blog Website</div> */}
-
 				<div id="main" className="flex flex-row w-full">
 					{/* SEARCH FILTER SORT */}
 					<div className="flex flex-col gap-6 items-center w-1/5">

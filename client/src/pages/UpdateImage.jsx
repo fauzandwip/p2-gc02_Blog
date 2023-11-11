@@ -3,11 +3,11 @@ import InputFile from '../components/InputFile';
 import ButtonNormal from '../components/ButtonNormal';
 import { useState } from 'react';
 import axios from '../api';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 const UpdateImage = ({ post, isOpen, onClose, fetchPosts }) => {
 	const [backgroundImage, setBackgroundImage] = useState('');
-	const [image, setImage] = useState('');
+	const [image, setImage] = useState({});
 
 	const onChange = async (e) => {
 		const image = e.target.files[0];
@@ -27,6 +27,7 @@ const UpdateImage = ({ post, isOpen, onClose, fetchPosts }) => {
 		try {
 			const formData = new FormData();
 			formData.append('imageUrl', image);
+
 			const { data } = await axios.patch(
 				`/posts/${post.id}/img-url`,
 				formData,
@@ -37,16 +38,13 @@ const UpdateImage = ({ post, isOpen, onClose, fetchPosts }) => {
 					},
 				}
 			);
+			toast.success(data.message);
 
-			Swal.fire({
-				title: data.message,
-				icon: 'success',
-			});
 			setImage('');
 			onClose(e);
 			fetchPosts();
 		} catch (error) {
-			console.log(error);
+			toast.error(error.response.data.message);
 		}
 	};
 

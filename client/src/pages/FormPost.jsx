@@ -9,7 +9,6 @@ import TextArea from '../components/TextArea';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
 
 const FormPost = ({
 	isOpen,
@@ -36,7 +35,6 @@ const FormPost = ({
 
 			setCategories(data);
 		} catch (error) {
-			console.log(error);
 			setError(error);
 		} finally {
 			setIsLoading(false);
@@ -60,10 +58,7 @@ const FormPost = ({
 						},
 					}
 				);
-				Swal.fire({
-					title: 'Success update post!',
-					icon: 'success',
-				});
+				toast.success('Success update post!');
 			} else {
 				await axios.post(
 					'/posts',
@@ -77,16 +72,12 @@ const FormPost = ({
 						},
 					}
 				);
-				Swal.fire({
-					title: 'Success create post!',
-					icon: 'success',
-				});
+				toast.success('Success create post!');
 			}
 
 			onClose(e);
 			fetchPosts();
 		} catch (error) {
-			console.log(error);
 			error.response.data.messages.forEach((message) => {
 				toast.error(message);
 			});

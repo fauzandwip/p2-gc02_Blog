@@ -15,7 +15,6 @@ const Detail = () => {
 		try {
 			setIsLoading(true);
 			const { data } = await axios.get(`/pub/posts/${id}`);
-			// console.log(data);
 			setPost(data);
 		} catch (error) {
 			setError(error);
@@ -29,7 +28,7 @@ const Detail = () => {
 	}, []);
 
 	if (isLoading) return <Loading />;
-	if (error) return <Error error={error} />;
+	if (error) return <Error error={error}>{error.response.data.message}</Error>;
 
 	return (
 		<div className="detail-post w-full h-screen flex flex-col items-center container pt-28 px-20 mx-auto gap-10 py-10">

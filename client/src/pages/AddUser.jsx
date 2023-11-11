@@ -31,8 +31,8 @@ const AddUser = () => {
 				icon: 'success',
 			});
 		} catch (error) {
-			console.log(error.response.data);
 			const errMessage = error.response.data.message;
+
 			if (errMessage) {
 				toast.error(errMessage);
 			} else {

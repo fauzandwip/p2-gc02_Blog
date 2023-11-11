@@ -18,7 +18,6 @@ const Category = () => {
 			});
 			setCategories(data);
 		} catch (error) {
-			console.log(error);
 			setError(error);
 		} finally {
 			setIsLoading(false);
