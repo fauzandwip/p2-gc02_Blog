@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 import RootLayout from '../layouts/RootLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -29,16 +29,28 @@ const router = createBrowserRouter([
 				element: <Login />,
 			},
 			{
-				path: 'add-user',
-				element: <AddUser />,
-			},
-			{
-				path: 'posts',
-				element: <CMSPosts />,
-			},
-			{
-				path: 'categories',
-				element: <Category />,
+				loader: () => {
+					const token = localStorage.getItem('access_token');
+					if (!token) {
+						throw redirect('/login');
+					}
+
+					return null;
+				},
+				children: [
+					{
+						path: 'add-user',
+						element: <AddUser />,
+					},
+					{
+						path: 'posts',
+						element: <CMSPosts />,
+					},
+					{
+						path: 'categories',
+						element: <Category />,
+					},
+				],
 			},
 		],
 	},
