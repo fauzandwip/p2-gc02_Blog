@@ -125,4 +125,4 @@ Target:
 
 Coba lakukan deployment untuk client (bisa coba deploy hal sederhana terlebih dahulu seperti halaman yang menampilkan ‘hello world’) menggunakan Firebase/Vercel.
 
-- [ ] Deploy client
+- [ ] Deploy client `(already deployed, but still error)`
