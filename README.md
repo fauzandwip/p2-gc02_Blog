@@ -4,4 +4,4 @@
 
 > Tuliskan API Docs kamu di sini
 
-https://phase2-blog.web.app `(already deployed, but still error. run on localhost)`
+https://phase2-blog.web.app
