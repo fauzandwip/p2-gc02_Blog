@@ -5,7 +5,7 @@ import ButtonBox from '../components/ButtonBox';
 import CheckBox from '../components/CheckBox';
 import Input from '../components/Input';
 import Select from '../components/Select';
-// import Loading from '../components/Loading';
+import Loading from '../components/Loading';
 import Error from '../components/Error';
 import { Link } from 'react-router-dom';
 
@@ -18,6 +18,7 @@ function Home() {
 	const [search, setSearch] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPage, setTotalPage] = useState(1);
+	const [loadingCategories, setLoadingCategories] = useState(true);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -91,13 +92,13 @@ function Home() {
 
 	const fetchCategories = async () => {
 		try {
-			setIsLoading(true);
+			setLoadingCategories(true);
 			const { data } = await axios.get('/categories');
 			setCategories(data);
 		} catch (error) {
 			setError(error);
 		} finally {
-			setIsLoading(false);
+			setLoadingCategories(false);
 		}
 	};
 
@@ -134,17 +135,11 @@ function Home() {
 		fetchPosts();
 	}, [search, currentPage, sort, filter]);
 
-	let cards = (
-		<div className="flex flex-wrap gap-2.5 min-h-[500px] justify-center items-start px-3">
-			{posts.map((post) => {
-				return (
-					<Link to={`/pub/posts/${post.id}`} key={post.id}>
-						<Card data={post} />
-					</Link>
-				);
-			})}
-		</div>
-	);
+	if (loadingCategories) {
+		return <Loading bgColor={'bg-slate-800'} color={'text-slate-100'} />;
+	}
+
+	let cards;
 
 	if (isLoading) {
 		cards = (
@@ -155,6 +150,18 @@ function Home() {
 	}
 
 	if (error) return <Error error={error} />;
+
+	cards = (
+		<div className="flex flex-wrap gap-2.5 min-h-[500px] justify-center items-start px-3">
+			{posts.map((post) => {
+				return (
+					<Link to={`/pub/posts/${post.id}`} key={post.id}>
+						<Card data={post} />
+					</Link>
+				);
+			})}
+		</div>
+	);
 
 	return (
 		<>
